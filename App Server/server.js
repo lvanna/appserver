@@ -19,7 +19,7 @@ var port = process.env.PORT || 8888;        // set our port
 var router = express.Router();              // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-routee.route('/').get( function(req, res) {
+router.route('/').get( function(req, res) {
     res.json({ message: "test api!" });
 });
 
@@ -87,10 +87,11 @@ router.route('/signup').post(function(req, res) {
 		    })
 		}else{
 			var newUserMysql = {
+		id:null,
             	username: req.body.username,
                 password: bcrypt.hashSync(req.body.password, null, null)  // use the generateHash function in our user model
             };
-            var insertQuery = "INSERT INTO users ( username, password ) values ('"+newUserMysql.username+"','"+newUserMysql.password+"')";
+            var insertQuery = "INSERT INTO users ( username, password ) values ('"+newUserMysql.username+"','"+newUserMysql.password+"');";
             connection.query(insertQuery,function(err, rows) {
                 newUserMysql.id = rows.insertId;
                 res.json({
